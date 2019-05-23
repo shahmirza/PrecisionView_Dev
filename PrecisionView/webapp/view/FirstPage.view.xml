@@ -1,0 +1,231 @@
+<mvc:View 
+    controllerName="PrecisionView.controller.FirstPage"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:uxap="sap.uxap"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	      displayBlock="true"
+	xmlns:m="sap.m"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns="sap.m">
+	<App id="FirstPage">
+		<pages>
+			<Page title="{i18n>title}" 
+			      class="sapUiSizeCompact Page_header_black"
+			      showNavButton="true"
+			      navButtonPress="onNavBack">
+				<content>
+				<HBox class="sapUiNoMarginTop VBoxBackgroundColor_black" width="100%" height="10%">
+    					  <VBox width="13%" class="sapUiSmallMarginTop sapUiSmallMarginBegin">
+        						<Image
+        							src="Images/Deloitte-logo-whitefont.jpg"
+        							densityAware="false"
+        							width="150px" >
+        							<layoutData>
+        								<FlexItemData growFactor="1" />
+        							</layoutData>
+        						</Image>
+    					    </VBox>	
+    					    <VBox width="26%"></VBox>
+							<VBox class="sapUiSmallMarginTop">
+									<Text id="text1"
+										   renderWhitespace="true"
+										   wrapping="true"
+										   text=" Driver Identification "
+										   class= "text_green bold_header" />
+							</VBox>	
+					</HBox>
+					<VBox class="sapUiSmallMargin VBoxBackgroundColor_white" height="auto">
+						<!--<VBox  width = "230px" class="sapUiNoMarginBottom VBoxBackgroundColor_white">
+							<Text id="text2" 
+        										   renderWhitespace="true"
+        										   wrapping="true"
+        										   text="Select Analysis Parameter "
+        										   class= "text_Underline bold_blue " />
+						</VBox>-->
+						<VBox class="VBoxBackgroundColor_white">
+							<fb:FilterBar reset="onReset" 
+							              search="onSearch" 
+							              useToolbar="false" 
+							              showFilterConfiguration="false" 
+							              showGoOnFB="false" 
+							              showRestoreButton="false" 
+							              showClearButton="false"
+							              class="hide_colon"
+							              >
+								<fb:filterItems class="VBoxBackgroundColor_white" width="2%" >
+									<fb:FilterItem name="A" label="{i18n>Period}">
+										<fb:control >
+											<Input id="inputPeriod"
+    								       value="2019"
+    			                           type="Number"
+    			                            />
+										</fb:control>
+									</fb:FilterItem>
+									<fb:FilterItem name="B" label="{i18n>Entity} ">
+										<fb:control>
+											<Select 
+        								    id="company"
+        									width="20rem"
+        									
+        									forceSelection="false"
+        									showSecondaryValues="true"
+        									items="{
+        										path: 'data>/COMPANY'
+        									}">
+												<!--<core:Item key="{GenID}" text="{COMPANY} " />-->
+												<core:ListItem text="{data>COMPANY} - {data>COMPANY_DESC}"
+        										key="{GenID}"/>
+											</Select>
+										</fb:control>
+									</fb:FilterItem>
+									<fb:FilterItem name="C" label="{i18n>Product}">
+										<fb:control>
+											<Select
+        								    id="mat_grp"
+        								    forceSelection="false"
+        								    showSecondaryValues="true"
+        									width="20rem"
+        									
+        									enabled = "true"
+        									items="{
+        										path: 'data>/MAT_GRP'
+        									}">
+												<core:ListItem key="{GenID}" text="{data>MATERIAL_GROUP} - {data>MATGROUP_DESC}" />
+											</Select>
+										</fb:control>
+									</fb:FilterItem>
+									<fb:FilterItem name="D" label="{i18n>Account}">
+										<fb:control>
+										<Select
+        								    id="acc_grp"
+        								    showSecondaryValues="true"
+        								    forceSelection="false"
+        									width="20rem"
+        								
+        									enabled = "true"
+        									items="{
+        										path: 'data>/ACC_GRP'
+        									}">
+										<core:ListItem key="{GenID}" text="{data>ACCOUNT_GROUP} - {data>ACCOUNT_DESCRIPTION}" />
+									</Select>
+										</fb:control>
+									</fb:FilterItem>
+							    	<fb:FilterItem name=" "><fb:control><m:Button press="onSearch" text="{i18n>btn_getdrivers}" class="btn_emp"/></fb:control></fb:FilterItem> 
+								</fb:filterItems>
+							</fb:FilterBar>
+							
+						</VBox>
+						
+					</VBox>
+					
+					<VBox class="sapUiNoMargin VBoxBackgroundColor_white" id="ranking_table" height="auto" visible="false">
+	                <!--<Title text="{i18n>Title_RankingTable}"/>-->
+	                    <f:SimpleForm id="simpleFormChange2" editable="true" layout="ResponsiveGridLayout" labelSpanL="6" labelSpanM="6" labelSpanS="6"
+							labelSpanXL="6" adjustLabelSpan="true" emptySpanXL="0"	emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+							singleContainerFullSize="true" class="editableForm" width = "100%">
+							<f:content>
+    							<OverflowToolbar design="Transparent" class="sapUiNoMarginBottom columnHeader_txt">
+    							    <Title text="{i18n>Title_RankingTable}" />
+    							</OverflowToolbar>
+        	                  <Table id ="d_ranking"
+        	                         width="auto"
+                    				 items="{   
+			        						path: 'data_Ranking>/modelData'
+			        				     }"
+			        				     class="sapUiLargeMarginEnd">
+                    				<columns>
+                                		<Column width="4rem" >
+                    						<m:Label text="{i18n>Tabl_Driver_Header_col}"  />
+                    					</Column>
+                    					
+                    					<Column width="2rem">
+                    						<m:Label text="{i18n>Tab_Ranking_Header_col2}" />
+                    					</Column>
+                    					
+                    					<Column width="2rem">
+                    						<m:Label text="{i18n>Tab_Ranking_Header_col3}" />
+                    					</Column>
+                    					
+                    					<Column  id="chkboxCol" width="2rem">
+                    						<m:Label text="{i18n>Tab_Ranking_Header_col4}" />
+                    				    </Column>
+                    				</columns>
+                    				<items>
+                    					<ColumnListItem >
+                                            <cells>
+                                            <Text text="{data_Ranking>DRIVER_DESC}"/>
+                                            </cells>
+                                            <cells>
+                                            <Text text="{data_Ranking>CORRELATION_SCORE}"/>
+                                            </cells>
+                                            <cells>
+                                            <Text text="{data_Ranking>RANK}"/>
+                                            </cells>
+                                            <cells id = "chkboxCell">
+                                            <CheckBox id = "chkboxc" select="handleDetailsPress"
+                                                  	  selected="{
+                        							     path: 'CORR_TAB',
+                        							     type: 'sap.ui.model.type.String'
+                        							   }"/>
+                                            </cells>
+                    					</ColumnListItem>
+                    				</items>
+                    		   </Table>
+                    		   
+                    		   	<OverflowToolbar design="Transparent" class="sapUiLargeMarginBegin sapUiNoMarginBottom columnHeader_txt">
+    							    <Title text="{i18n>Title_DriversTable}"/>
+    							</OverflowToolbar>
+                        	    <Table id ="tab_drivers"
+        	                         width="auto"
+        	                         items="{   
+			        						path: 'data_drivers>/modelData'
+			        				     }"
+			        				     class="sapUiLargeMarginBegin">
+                        				<columns>
+                                    		<Column width="3rem" >
+                        						<m:Label text="{i18n>Tabl_Driver_Header_col}" />
+                        					</Column>
+                        					
+                        					<Column width="1rem">
+                        						<m:Label text="" />
+                        				    </Column>
+                        				</columns>
+                        				
+                        				<items>
+                        					<ColumnListItem >
+                                                <cells>
+                                                <Text text="{data_drivers>}"/>
+                                                </cells>
+                                                <cells>
+                                                   <CheckBox select="on_driver_chkbox"
+                                                             selected="true"
+                                                             visible="false"/>
+                            					
+                                                </cells>
+                          					</ColumnListItem>
+                    				    </items>
+                        		   </Table>
+                   
+                             </f:content>
+						</f:SimpleForm>
+						
+					</VBox>
+					<VBox class="sapUiNoMargin VBoxBackgroundColor_white" id="select_drivers_button" height="auto" visible="false">
+					<HBox>
+    					<m:Button press="pushSelectedDriver" text="Select Drivers" width="150px" class="btn_emp sapUiMediumMarginEnd"/>
+    					<HBox width="41.5%"></HBox>
+    					<m:Button press="onRunForecast"	text="{i18n>btn_runForecast}" width="150px"
+    											class="btn_emp sapUiMediumMarginEnd" />
+                    </HBox>
+					</VBox>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
