@@ -1,0 +1,9 @@
+service {
+ "PA_FINX_INPUT"."ZFIN_PA_CONTROL_TABLE" as "CONTROL_T" 
+         with("COMPANY","COMPANY_DESC","ACCOUNT_GROUP","MATGROUP_DESC","MATERIAL_GROUP","ACCOUNT_DESCRIPTION") key generate local "GenID";
+                  
+ 
+      "FIN_PA_OUTPUT::ZFIN_PA_SELECT_DRIVERS" as "SELECT_DRIVERS_OP" key generate local "GenID"
+	  parameters via entity "SELECT_DRIVERS_OPParameters" results property "Results"; 
+	  	  
+}

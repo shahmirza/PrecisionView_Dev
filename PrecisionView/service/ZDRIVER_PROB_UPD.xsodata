@@ -1,0 +1,8 @@
+service 
+{
+
+/*"PrecisionView::ZFIN_PA_CV_DRIVER_PROB" as "DRIVER_PROB" key ("FISCAL_YEAR","FISCAL_MONTH","DRIVER_CODE")*/
+ "PA_FINX_INPUT"."ZFIN_PA_DRIVER_PROB" as "DRIVER_PROB"
+ create using "PrecisionView::SP_UPDATE_DRIVERS_PROB";
+
+}

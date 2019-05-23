@@ -1,0 +1,10 @@
+service 
+{
+
+ "PA_FINX_INPUT"."ZFIN_PA_DRIVERS" as "DRIVERS" 
+ 
+ //"FIN_PA_OUTPUT::ZFIN_PA_CV_DRIVERS" as "DRIVERS" 
+ 
+ create using "PrecisionView::SP_UPDATE_DRIVERS";
+
+}

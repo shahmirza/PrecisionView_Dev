@@ -1,0 +1,32 @@
+{
+     "exposed" : true,  
+      "authentication" : [{"method":"Basic"}] ,         
+      "cache_control" : "no-cache, no-store", 
+
+     "cors" :                    
+            {
+             	"enabled" : true,
+             	"allowMethods": ["GET","POST","PUT","DELETE", "HEAD"],
+				"allowOrigin": ["*"]
+      		}, 
+                     
+     "enable_etags" : true,
+
+     "force_ssl" : false,
+     
+     "prevent_xsrf" : false,
+     
+     "anonymous_connection": "PrecisionView_Dev.PrecisionView::anonuser",
+
+	 "exposeHeaders": [
+		"x-csrf-token"
+		],
+		
+	  "allowHeaders": [
+		"Accept",
+		"Authorization",
+		"Content-Type",
+		"X-CSRF-Token",
+		"Access-Control-Allow-Origin"
+		]	
+}

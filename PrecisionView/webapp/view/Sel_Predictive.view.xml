@@ -1,0 +1,264 @@
+<mvc:View controllerName="PrecisionView.controller.Sel_Predictive"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:uxap="sap.uxap"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:m="sap.m"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+	xmlns:viz.data="sap.viz.ui5.data"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns="sap.m">
+	<App id="Sel_PredictivePage">
+		<pages>
+			<Page title="{i18n>title}" 
+			      class="sapUiSizeCompact Page_header_black"
+			      showNavButton="true"
+			      navButtonPress="onNavBack">
+				<content>
+					<HBox  class="VBoxBackgroundColor_black" width="100%" height="10%">
+						<VBox width="13%" class="sapUiSmallMarginTop sapUiSmallMarginBegin">
+							<Image
+        							src="Images/Deloitte-logo-whitefont.jpg"
+        							densityAware="false"
+        							width="150px" >
+								<layoutData>
+									<FlexItemData growFactor="1" />
+								</layoutData>
+							</Image>
+						</VBox>
+						<VBox width="21%"></VBox>
+						<VBox class="sapUiSmallMarginTop">
+							<Text id="text1"
+										   renderWhitespace="true"
+										   wrapping="true"
+										   text=" Precision View Planning Cockpit "
+										   class= "text_green bold_header " />
+						</VBox>
+					</HBox>
+					<VBox class="sapUiSmallMargin" height="auto">
+						<VBox  width = "230px" class="sapUiNoMarginBottom">
+							<Text id="text2" 
+        										   renderWhitespace="true"
+        										   wrapping="true"
+        										   visible="false"
+        										   text="Select Analysis Parameter "
+        										   class= "text_Underline bold_blue " />
+						</VBox>
+						<VBox class="VBoxBackgroundColor_white">
+							<fb:FilterBar reset="onReset" search="onSearch" useToolbar="false" showFilterConfiguration="false" showGoOnFB="false" showRestoreButton="false" showClearButton="false">
+								<fb:filterItems>
+							<!--	<fb:FilterItem name="F" label="{i18n>Driver}">
+										<fb:control>
+											<ComboBox
+        								    id="comboBox_driver"
+        								    showSecondaryValues="true"
+        									width="20rem"
+        									items="{
+        										path: 'data>/MAT_GRP'
+        									}">
+												<core:ListItem key="{GenID}" text="{data>MATERIAL_GROUP} - {data>MATGROUP_DESC}" />
+											</ComboBox>
+										</fb:control>
+									</fb:FilterItem>-->
+									<fb:FilterItem name="A" label="{i18n>Period}">
+										<fb:control>
+											<Input id="inputPeriod"
+    								       value="2019"
+    			                           type="Number"/>
+										</fb:control>
+									</fb:FilterItem>
+									<fb:FilterItem name="B" label="{i18n>Entity}">
+										<fb:control>
+											<ComboBox 
+        								    id="company"
+        									width="20rem"
+        									showSecondaryValues="true"
+        									items="{
+        										path: 'data>/COMPANY'
+        									}">
+												<!--<core:Item key="{GenID}" text="{COMPANY} " />-->
+												<core:ListItem text="{data>COMPANY} - {data>COMPANY_DESC}"
+        										key="{GenID}"/>
+											</ComboBox>
+										</fb:control>
+									</fb:FilterItem>
+									<fb:FilterItem name="C" label="{i18n>Product}">
+										<fb:control>
+											<ComboBox
+        								    id="mat_grp"
+        								    showSecondaryValues="true"
+        									width="20rem"
+        									items="{
+        										path: 'data>/MAT_GRP'
+        									}">
+												<core:ListItem key="{GenID}" text="{data>MATERIAL_GROUP} - {data>MATGROUP_DESC}" />
+											</ComboBox>
+										</fb:control>
+									</fb:FilterItem>
+									<fb:FilterItem name="D" label="{i18n>Account}">
+										<fb:control>
+										<ComboBox
+        								    id="acc_grp"
+        								    showSecondaryValues="true"
+        									width="20rem"
+        									items="{
+        										path: 'data>/ACC_GRP'
+        									}">
+										<core:ListItem key="{GenID}" text="{data>ACCOUNT_GROUP} - {data>ACCOUNT_DESCRIPTION}" />
+									</ComboBox>
+										</fb:control>
+									</fb:FilterItem>
+									<fb:FilterItem name=" ">
+									<fb:control>
+									<m:Button press="onSearch" text="{i18n>btn_getdrivers}" class="btn_emp"/>
+										</fb:control>
+									</fb:FilterItem>
+								</fb:filterItems>
+							</fb:FilterBar>
+							
+						</VBox>
+						
+					</VBox>
+					<VBox id="VBox_updateTable" class="sapUiSmallMargin formBgColor" height="auto" visible="false">
+						<OverflowToolbar design="Transparent"  class="columnHeader_txt">
+							<Title text="Drivers"/>
+							<ToolbarSpacer/>
+							<Button text="{i18n>btn_UpdDriver}" press="onUpdDriver" type="Emphasized" class="btn_emp" />
+						<!--	<OverflowToolbarButton icon="sap-icon://sort" text="Sort" press="onSort"/>
+							<OverflowToolbarButton icon="sap-icon://filter" text="Filter" press="onFilter"/>
+							<OverflowToolbarButton icon="sap-icon://group-2" text="Group" press="onGroup"/>
+							<OverflowToolbarButton icon="sap-icon://action-settings" text="Columns" press="onColumns"/>-->
+						</OverflowToolbar> 
+						<VBox id ="table3"></VBox>
+						<m:Label/>
+					<!--	<m:Button press="onUpdDriver" text="{i18n>btn_UpdDriver}" width="130px" class="btn_pos_mid"/>-->
+					</VBox>
+					<VBox id="VBox_modelSel" class="sapUiSmallMargin VBoxBackgroundColor_white" height="auto" visible="false"> 
+					<Title text="Forecast Summary Data by Model" class="columnHeader_txt sapUiSmallMarginBegin" />
+						<l:Grid
+							defaultSpan="L6 M6 S10">
+							<l:content>
+								<f:SimpleForm editable="true" class="form_pos_left" >
+									<m:Label text="{i18n>Model_sel}"/>
+									<MultiComboBox
+															selectionChange="handleSelectionChange"
+															selectionFinish="handleSelectionFinish"
+															width="400px"
+															id="modelSel"
+															selectedKeys = "0"
+															>
+										<items>
+											<core:Item key="0" text="ARIMAX"/>
+											<core:Item key="1" text="PROPHET"/>
+											<core:Item key="2" text="RANDOM FOREST"/>
+											<core:Item key="1" text="ARIMA"/>
+											<core:Item key="1" text="DYNAMIC REGRESSION"/>
+										</items>
+									</MultiComboBox>
+								</f:SimpleForm>
+								<VBox>
+									<Text text="    " class="nameTitle" />
+									<HBox>
+										<Text  text="{i18n>Last_text}"/>
+										<Text text="2018 October" visible="true" id="l_last_text"/>
+									</HBox>
+									<HBox>
+										<Text  text="{i18n>mape}"/>
+										<Text text="3.70" visible="true" id="l_mape"/>
+									</HBox>
+								</VBox>
+							</l:content>
+						</l:Grid>
+						
+						<HBox>
+						<HBox width ="40%"></HBox>
+						<m:Button press="onRunForecase" text="{i18n>btn_runForecast}" width="150px" class="btn_emp sapUiMediumMarginEnd"/>
+						<m:Button press="onForecastRefresh" text="{i18n>btn_refresh_graph}" icon="sap-icon://refresh" width="150px" class="btn_emp" iconFirst="false"/>
+					    </HBox>
+					</VBox>
+					<!--	<VBox class="sapUiSmallMargin VBoxBackgroundColor_white" height="auto"><f:SimpleForm id="simpleFormChange2" editable="true" layout="ResponsiveGridLayout" labelSpanL="6" labelSpanM="6" labelSpanS="6"
+							labelSpanXL="6" adjustLabelSpan="true" emptySpanXL="0"	emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+							singleContainerFullSize="true" class="editableForm" width = "100%"><f:content><Table id ="runScenarioTable1"
+        	                         width="auto"
+                    				 items="{   
+			        						path: ''
+			        				     }"
+			        				     class="sapUiLargeMarginEnd"><columns><Column width="4rem" hAlign="End"><m:Label text="" /></Column><Column width="2rem"><m:Label text="{Selected Model}" /></Column><Column width="2rem"><m:Label text="{Model Type}" /></Column><Column width="2rem"><m:Label text="{Override?}" /></Column><Column width="2rem"><m:Label text="{Model Selection}" /></Column></columns><items><ColumnListItem ></ColumnListItem></items></Table><Table id ="runScenarioTable2"
+        	                         width="auto"
+        	                         items="{   
+			        						path: 'data_drivers>/modelData'
+			        				     }"
+			        				     class="sapUiLargeMarginBegin"><columns><Column width="3rem" hAlign="End"><m:Label text="{i18n>Tabl_Driver_Header_col}" /></Column><Column width="1rem"><m:Label text="" /></Column></columns><items><ColumnListItem ><cells><Text text="{data_drivers>}"/></cells><cells><CheckBox select="on_driver_chkbox"
+                                                             selected="true"
+                                                             enable="false"/></cells></ColumnListItem></items></Table></f:content></f:SimpleForm></VBox>-->
+					<VBox id="VBox_Forecast" visible="false" class="sapUiSmallMargin">
+						<l:Grid
+								class="sapUiSmallMarginTop"
+								hSpacing="2"
+								defaultSpan="L6 M6 S10">
+							<l:content>
+								<viz:VizFrame id="forecastChart2" 
+								              width="100%" 
+								              vizType='line' 
+								              uiConfig="{applicationSet:'fiori'}" >
+								</viz:VizFrame>
+								<Table id ="forecastDataTable"
+        	                         width="auto"
+                    				 items="{   
+			        						path: '/'
+			        				     }"
+			        				     class="sapUiLargeMarginEnd">
+									<columns>
+										<Column >
+											<m:Label text="Fiscal Year" />
+										</Column>
+										<Column >
+											<m:Label text="Fiscal Period" />
+										</Column>
+										<Column>
+											<m:Label text="Forecast" />
+										</Column>
+										<Column>
+											<m:Label text="Value" />
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem >
+											<cells>
+												<Text text="{FISCAL_YEAR}"/>
+											</cells>
+											<cells>
+												<Text text="{FISCAL_PERIOD}"/>
+											</cells>
+											<cells>
+												<Text text="{VERSION}"/>
+											</cells>
+											<cells>
+											        <!--	<Text text="{path:'VALUE',type:'sap.ui.model.type.Float'}"/>-->
+									           <Text text= "{i18n>currencySymbol}{path:'VALUE',type:'sap.ui.model.type.Float'}"/>
+									        </cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</l:content>
+						</l:Grid>
+					</VBox>
+					<!-- <VBox class="sapUiSmallMargin VBoxBackgroundColor_white" height="auto"><f:SimpleForm id="simpleFormForecastData" editable="true" layout="ResponsiveGridLayout" labelSpanL="6" labelSpanM="6" labelSpanS="6"
+							labelSpanXL="6" adjustLabelSpan="true" emptySpanXL="0"	emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+							singleContainerFullSize="true" class="editableForm" width = "100%"><f:content><Table id ="forecastDataTable"
+        	                         width="auto"
+                    				 items="{   
+			        						path: 'dataForecast>/modelData'
+			        				     }"
+			        				     class="sapUiLargeMarginEnd"><columns><Column width="4rem" hAlign="End"><m:Label text="" /></Column><Column width="2rem"><m:Label text="Jan" /></Column><Column width="2rem"><m:Label text="Feb" /></Column><Column width="2rem"><m:Label text="Mar" /></Column><Column width="2rem"><m:Label text="Q1" /></Column><Column width="2rem"><m:Label text="Apr" /></Column><Column width="2rem"><m:Label text="May" /></Column><Column width="2rem"><m:Label text="June" /></Column><Column width="2rem"><m:Label text="Q2" /></Column><Column width="2rem"><m:Label text="Jul" /></Column><Column width="2rem"><m:Label text="Aug" /></Column><Column width="2rem"><m:Label text="Sep" /></Column><Column width="2rem"><m:Label text="Q3" /></Column><Column width="2rem"><m:Label text="Oct" /></Column><Column width="2rem"><m:Label text="Nov" /></Column><Column width="2rem"><m:Label text="Dec" /></Column><Column width="2rem"><m:Label text="Dec" /></Column></columns><items><ColumnListItem ><cells><Text text="{data_Ranking>DRIVER_DESC}"/></cells><cells><Text text="{data_Ranking>CORRELATION_SCORE}"/></cells><cells><Text text="{data_Ranking>RANK}"/></cells></ColumnListItem></items></Table></f:content></f:SimpleForm></VBox>-->
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
